@@ -23,16 +23,7 @@ class SearchPicturesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_pictures)
-        mPicturesUrlList = ArrayList()
-
-        mRecyclerView = findViewById(R.id.my_reycler_view)
-        mRecyclerView.setHasFixedSize(true)
-
-        mLayoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-        mRecyclerView.layoutManager = mLayoutManager
-
-        mAdapter = PictureAdapter(listOf("a", "b", "c", "d", "e", "f", "g", "h", "i"))
-        mRecyclerView.adapter = mAdapter
+        initViews()
 
         val baseUrl = "https://api.unsplash.com"
         val randomPhotoUrl = "$baseUrl/photos/random?client_id=${MyApplication.getUnsplashAPIKey()}"
@@ -76,11 +67,15 @@ class SearchPicturesActivity : AppCompatActivity() {
     }
 
     fun initViews() {
+        mPicturesUrlList = ArrayList()
 
-    }
+        mLayoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        mAdapter = PictureAdapter(listOf("a", "b", "c", "d", "e", "f", "g", "h", "i"))
 
-    fun setRecyclerViewAdapter(pictureAdapter: PictureAdapter) {
-        mRecyclerView.adapter = pictureAdapter
+        mRecyclerView = findViewById(R.id.my_reycler_view)
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = mLayoutManager
+        mRecyclerView.adapter = mAdapter
     }
 
     private fun makeSearchQuery(
@@ -91,8 +86,5 @@ class SearchPicturesActivity : AppCompatActivity() {
     ): String {
         return "query=$searchKey&per_page=$perPage&orientation=$orientation&page=$page"
     }
-
-    private fun getUnsplashAccessKey() = "j4P7SWSmIv-DIdBJFHeI0bodIVwFFWxxCPnkKqvb97w"
-
 
 }

@@ -15,15 +15,17 @@
         <Button
             android:id="@+id/btn_search_images"
             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
-            android:text="search images"/>
+            android:text="@string/search_images"/>
 
         <Button
             android:id="@+id/btn_random_images"
             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_search_images"
-            android:text="random image"/>
+            android:text="@string/find_a_random_image"/>
 
 
     </RelativeLayout>
