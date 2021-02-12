@@ -16,15 +16,7 @@ class SingletonRequestQueueTest {
 
     @Before
     fun setUp() {
-        // InstrumentationRegistry - an exposed registry instance that holds a ref to the instrumentation running in the process and it's arguments
-        // getInstrumentation() - the Instrumentation currently running
-        // getContext() - the Context of this Instrumentation's package
-        // getTargetContext() - the application Context of the target application
-        // getArguments - copy of arguments Bundle. Useful for accessing the command line args passed to the Instruentation for the test
 
-        // Note: When running Instrumentation tests, there are 2 apps: the 'real' app, and the 'test' app.
-        // load a res from real app: getTargetContext()
-        // load a res from test app: getContext()
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     }

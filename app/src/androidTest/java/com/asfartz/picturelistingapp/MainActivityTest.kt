@@ -1,50 +1,68 @@
 package com.asfartz.picturelistingapp
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Context
 import android.view.View
 import android.widget.Button
+import androidx.lifecycle.Lifecycle
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.instanceOf
-import org.junit.After
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertThat
-import org.junit.Before
+import org.junit.AfterClass
+import org.junit.Assert.*
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 
 
 class MainActivityTest {
 
-    lateinit var appContext: Context
+    companion object {
 
-    @get:Rule
-    val intentsTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java)
+        // variables initialized for the test class, JUST ONCE
+        lateinit var appContext: Context
 
-    @get:Rule
-     val activityTestRule: ActivityTestRule<MainActivity> =
-         ActivityTestRule<MainActivity>(MainActivity::class.java, false, true)
+        @JvmStatic
+        @BeforeClass
+        fun setUp() {
+            // executed once, before running the class. ex: database connections
+            appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        }
 
-
-    @Before
-    fun setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        @JvmStatic
+        @AfterClass
+        fun tearDown() {
+            // executed once, after all tests have run. ex: clear connections, ports, etc
+            appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        }
     }
 
-    @After
-    fun tearDown() {
+    // variables initialized PER instance of the test class
+    //  var a = ..
 
-    }
+    @get:Rule
+    val mainActivityTestRule: ActivityTestRule<MainActivity> =
+        ActivityTestRule<MainActivity>(MainActivity::class.java, false, true)
+
+    @get:Rule
+    val mainActivityScenario: ActivityScenario<MainActivity> =
+        ActivityScenario.launch(MainActivity::class.java)
+
+    @get:Rule
+    val searchPicturesActivityScenario: ActivityScenario<SearchPicturesActivity> =
+        ActivityScenario.launch(SearchPicturesActivity::class.java)
+
 
     @Test
     fun test_MainActivity_views_are_correctly_initialized() {
-        val mainActivity: MainActivity = activityTestRule.activity
+        val mainActivity: MainActivity = mainActivityTestRule.activity
         val searchImagesBtn: View = mainActivity.findViewById(R.id.btn_search_images)
         val randomImagesBtn: View = mainActivity.findViewById(R.id.btn_random_images)
         assertNotNull(searchImagesBtn)
@@ -62,9 +80,17 @@ class MainActivityTest {
 
     @Test
     fun test_onClick_Button_starts_Activity() {
+        val searchPicturesActivityMonitor: Instrumentation.ActivityMonitor =
+            InstrumentationRegistry.getInstrumentation()
+                .addMonitor(SearchPicturesActivity::class.simpleName, null, false)
+
         onView(withId(R.id.btn_search_images)).perform(click())
-//        val activityMonitor: Instrumentation.ActivityMonitor = InstrumentationRegistry.getInstrumentation().addMonitor(
-//            SearchPicturesActivity::class.simpleName
-//        )
+
+        val searchPicturesActivity: Activity? =
+            searchPicturesActivityMonitor.waitForActivityWithTimeout(8 * 1000)
+        assertNotNull("searchPicturesActivity not started after 10s", searchPicturesActivity)
+
+        assertEquals(Lifecycle.State.RESUMED, searchPicturesActivityScenario.state)
+
     }
 }
