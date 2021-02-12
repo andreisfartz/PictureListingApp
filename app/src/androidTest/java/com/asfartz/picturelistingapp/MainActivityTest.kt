@@ -1,8 +1,6 @@
 package com.asfartz.picturelistingapp
 
-import android.app.Instrumentation
 import android.content.Context
-import android.content.Intent
 import android.view.View
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
@@ -15,7 +13,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.instanceOf
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,12 +28,13 @@ class MainActivityTest {
     val intentsTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java)
 
     @get:Rule
-    val activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule<MainActivity>(MainActivity::class.java)
+     val activityTestRule: ActivityTestRule<MainActivity> =
+         ActivityTestRule<MainActivity>(MainActivity::class.java, false, true)
+
 
     @Before
     fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        activityTestRule.launchActivity(null)
     }
 
     @After
@@ -62,8 +62,6 @@ class MainActivityTest {
 
     @Test
     fun test_onClick_Button_starts_Activity() {
-
-
         onView(withId(R.id.btn_search_images)).perform(click())
 //        val activityMonitor: Instrumentation.ActivityMonitor = InstrumentationRegistry.getInstrumentation().addMonitor(
 //            SearchPicturesActivity::class.simpleName
