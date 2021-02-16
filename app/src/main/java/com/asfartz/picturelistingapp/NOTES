@@ -1,0 +1,73 @@
+
+----------------- Tests -----------------
+    In Android Apps, you should separate your tests so that you may cover both the Logic, and the UI (which preferably should be as separated as possible)
+
+    Espresso takes care of UI testing. It installs a test APK which sends UI events (typing, taps, swipes, ...) to the real app, and observes what happens.
+    Espresso only works within a single app. If you want to test scenarios that spread to multiple apps, you need UI Automator.
+    Espresso allows Gray Box Testing (refer to elements by their resource id, and have access to the app code, so you can use it's constants)
+
+
+
+----------------- Issues -----------------
+    UI Testing can be 'flacky' due to timing issues.
+    Ex: your test code tries to click on a button before the button has been rendered. So UI events can be sent before the app is ready, which can make tests fail.
+    Espresso solves this problem by checking the Main Thread Message Queue before sending any UI events.
+    The Main Thread Message Queue contains instructions for the app to render elements on screen. When its not empty, it means rendering is not done.
+    Before Espresso performs any action, it checks to see if the queue is empty. If not, it waits for it to be empty, then sends it's UI events.
+
+
+
+----------------- Async Tasks -----------------
+    Espresso waits for all Async tasks to finish before running it's UI events and tests.
+
+
+
+----------------- Espresso Formula -----------------
+    onView(ViewMatcher) .perform(ViewAction) .check(ViewAssertion)
+
+    1.onView(ViewMatcher) - locate the view on the screen
+        Why not findViewById(...) ? That's what we use normally in Activity / Fragment
+        Because of synchronization. When calling onView, Espresso waits for the app to be idle = views have been rendered, and there are no pending async tasks
+        If we used findViewById(...), we could end up sending UI Events when the app isn't ready. So it would send events to it before it's rendered. The test would fail because of timing issues
+    2.perform(ViewAction) - perform an action on the view. Clicking, typing, ...
+    3. check(ViewAssertion) -
+
+Hamcrest methods cheat sheet:  https://goo.gl/NQmM4F  /  https://www.marcphilipp.de/downloads/posts/2013-01-02-hamcrest-quick-reference/Hamcrest-1.3.pdf
+Espresso cheat sheet:          https://goo.gl/6H6pZd  /  https://developer.android.com/training/testing/espresso/cheat-sheet.html
+
+
+    Sometimes, when you can't use onView( ..id..) because of the view not having an id (toolbar title), you can
+    use work arounds to reach it instead.
+----------------- Espresso Test Recorder -----------------
+https://developer.android.com/studio/test/espresso-test-recorder
+
+    This tool lets your create UI tests without writing any test code.
+    From Android Studio > tab 'Run' > 'Record Espresso Test' >>>
+    >>> Do an Action > Add an assertion > Repeat previos 2 steps for what you wish to test >>>
+    >>> Generate test code
+
+    Note however that there may be differences in imports / best-practices, since Espresso and
+    Espresso Recorder are maintained by separate teams
+
+----------------- JUnit Annotations -----------------
+@BeforeClass - static method - executed once, before running the test class
+@AfterClass - static method - executed once, after running the test class
+
+@Before - method - executed before each test
+@After - method - executed after each test
+
+@Rule - Generic reusable functionality for each test.
+        You can create custom rules by implementing TestRule or MethodRule, or by extending
+        existing implementations like ExternalResource, TemporaryFolder, etc
+@ClassRule - similar to above, but static
+
+InstrumentationRegistry - an exposed registry instance that holds a ref to the instrumentation running in the process and it's arguments
+    getInstrumentation() - the Instrumentation currently running
+            getContext() - the Context of this Instrumentation's package
+            getTargetContext() - the application Context of the target application
+            getArguments() - copy of arguments Bundle. Useful for accessing the command line args passed to the Instruentation for the test
+
+
+When running Instrumentation tests, there are 2 apps: the 'real' app, and the 'test' app.
+    load a res from real app: getTargetContext()
+    load a res from test app: getContext()

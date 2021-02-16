@@ -18,8 +18,6 @@ class MyApplication : Application() {
             /* optional page size */
         )
 
-
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -32,6 +30,8 @@ class MyApplication : Application() {
 
     companion object {
         fun getUnsplashAPIKey() = "j4P7SWSmIv-DIdBJFHeI0bodIVwFFWxxCPnkKqvb97w"
+
+        fun getFirstName() = "Andrei"
     }
 
 }

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">PictureListingApp</string>
+    <string name="app_name_sep">Picture Listing App</string>
     <string name="search_images">Search images</string>
     <string name="find_a_random_image">Find a random image</string>
+    <string name="name_Andrei">Andrei</string>
 </resources>
