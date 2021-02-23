@@ -97,7 +97,7 @@ class MainActivityTest {
         )
     }
 
-    fun withToolbarTitle(expectedTitle: CharSequence): Matcher<View> {
+    private fun withToolbarTitle(expectedTitle: CharSequence): Matcher<View> {
 
         // we want a BoundedMatcher, applying to the Toolbar class
         return object : BoundedMatcher<View, Toolbar>(Toolbar::class.java) {

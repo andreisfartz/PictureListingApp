@@ -50,6 +50,23 @@
             android:text="@string/find_a_random_image"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/btn_list_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_random_images"
+            android:layout_centerHorizontal="true"
+            android:text="@string/list_view_example"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_list_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/recycler_view_example"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

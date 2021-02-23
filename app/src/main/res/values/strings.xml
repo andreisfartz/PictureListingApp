@@ -4,4 +4,6 @@
     <string name="search_images">Search images</string>
     <string name="find_a_random_image">Find a random image</string>
     <string name="name_Andrei">Andrei</string>
+    <string name="list_view_example">List View Example</string>
+    <string name="recycler_view_example">Recycler view example</string>
 </resources>
