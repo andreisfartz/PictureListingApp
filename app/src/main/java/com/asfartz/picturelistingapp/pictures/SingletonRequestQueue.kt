@@ -1,4 +1,4 @@
-package com.asfartz.picturelistingapp
+package com.asfartz.picturelistingapp.pictures
 
 import android.content.Context
 import com.android.volley.RequestQueue

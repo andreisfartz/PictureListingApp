@@ -13,7 +13,7 @@
         android:textSize="20sp"
         android:text="Show name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"/>
+        android:layout_marginTop="80dp"/>
 
     <TextView
         android:id="@+id/tv_first_name"
@@ -31,7 +31,9 @@
         android:id="@+id/centering_relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_show_name"
+        android:layout_marginTop="60dp">
 
         <Button
             android:id="@+id/btn_search_images"
@@ -67,6 +69,16 @@
             android:layout_centerHorizontal="true"
             android:text="@string/recycler_view_example"
             android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_cats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_recycler_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/cats_app"
+            android:textSize="20sp" />
+
 
     </RelativeLayout>
 

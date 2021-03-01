@@ -1,9 +1,9 @@
 package com.asfartz.picturelistingapp
 
 import android.content.Context
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.asfartz.picturelistingapp.pictures.SingletonRequestQueue
 import org.junit.*
 
 import org.junit.Assert.*
@@ -14,11 +14,9 @@ class SingletonRequestQueueTest {
 
     lateinit var appContext: Context
 
-    @Before
+    @BeforeClass
     fun setUp() {
-
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
     }
 
     @Test
@@ -33,8 +31,8 @@ class SingletonRequestQueueTest {
         assertEquals(rq1, rq2)
     }
 
-    @After
+    @AfterClass
     fun tearDown() {
-//        appContext = null   // Null can not be a value of a non-null type Context
+       // appContext = null   // Null can not be a value of a non-null type Context
     }
 }

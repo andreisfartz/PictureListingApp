@@ -1,5 +1,15 @@
+Side notes:
+
+To generate test class for a class:
+    CTRL + SHIFT + T  >  Create New Test...
+    ALT + INSERT(Right-click + Generate)  >  Test...
+
+UI Automator - for running tests which can go outside of your app:
+    https://goo.gl/6H6pZd  /  https://developer.android.com/training/testing/ui-automator.html
+
 
 ----------------- Tests -----------------
+
     In Android Apps, you should separate your tests so that you may cover both the Logic, and the UI (which preferably should be as separated as possible)
 
     Espresso takes care of UI testing. It installs a test APK which sends UI events (typing, taps, swipes, ...) to the real app, and observes what happens.
@@ -9,6 +19,7 @@
 
 
 ----------------- Issues -----------------
+
     UI Testing can be 'flacky' due to timing issues.
     Ex: your test code tries to click on a button before the button has been rendered. So UI events can be sent before the app is ready, which can make tests fail.
     Espresso solves this problem by checking the Main Thread Message Queue before sending any UI events.
@@ -18,11 +29,13 @@
 
 
 ----------------- Async Tasks -----------------
+
     Espresso waits for all Async tasks to finish before running it's UI events and tests.
 
 
 
 ----------------- Espresso Formula 1 -----------------
+
     onView(ViewMatcher) .perform(ViewAction) .check(ViewAssertion)
 
     1.onView(ViewMatcher) - locate the view on the screen
@@ -57,6 +70,7 @@ For RecyclerView:
 
 
 ----------------- Espresso Test Recorder -----------------
+
 https://developer.android.com/studio/test/espresso-test-recorder
 
     This tool lets your create UI tests without writing any test code.
@@ -70,6 +84,7 @@ https://developer.android.com/studio/test/espresso-test-recorder
 
 
 ----------------- JUnit Annotations -----------------
+
 @BeforeClass - static method - executed once, before running the test class
 @AfterClass - static method - executed once, after running the test class
 
@@ -83,11 +98,45 @@ https://developer.android.com/studio/test/espresso-test-recorder
 
 InstrumentationRegistry - an exposed registry instance that holds a ref to the instrumentation running in the process and it's arguments
     getInstrumentation() - the Instrumentation currently running
-            getContext() - the Context of this Instrumentation's package
-            getTargetContext() - the application Context of the target application
-            getArguments() - copy of arguments Bundle. Useful for accessing the command line args passed to the Instruentation for the test
+            getContext() - the Context of this Instrumentation's package, the test apk (which doesn't contain the string res of the app)
+            getTargetContext() - the application Context of the target application, the app apk
+            getArguments() - copy of arguments Bundle. Useful for accessing the command line args passed to the Instrumentation for the test
 
 
 When running Instrumentation tests, there are 2 apps: the 'real' app, and the 'test' app.
     load a res from real app: getTargetContext()
     load a res from test app: getContext()
+
+
+
+----------------- Intents -----------------
+Check tests for 'catnames' package:
+    Launch an Activity with an Intent which holds an extra.
+
+
+ActivityTestRule(MyActivity::class.java, initialTouchMode = true, launchActivity = false)
+initialTouchMode - ??
+launchActivity - this determines if the rule will automatically start the activity, when the Test method starts.
+                 When using the ActivityTestRule constructor with just the class name, it's by default set to true.
+                 When it's false, we need to call launchActivity(Intent) on the ActivityTestRule, otherwise the Activity won't be started at the beginning of the Test
+
+Outgoing Intents:
+    Check that an Activity is properly launched, with the proper EXTRAs, is to use Espresso-Intents
+    https://goo.gl/8okA8F  /  https://developer.android.com/training/testing/espresso/intents.html
+    Espresso-Intents = extension of Espresso, for validating and stubbing Intents
+
+
+Both Intents.intended and Intents.intending check the outgoing Intent of an Activity
+Intents.indended() - just watches what happens. So it just launches the Activity and records the Intent passed to it
+Intents.indenting() - intercepts the Intent, and blocks the Activity from launching. This is great for stubbing the Activity Result
+
+example Stubbing Activity result:
+    Intents.indenting(Matcher<Intent!>!).respondsWith(ActivityResult)
+
+
+
+
+
+
+
+
