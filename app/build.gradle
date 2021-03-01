@@ -14,7 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.asfartz.picturelistingapp.hermetic.CustomTestRunner"
     }
 
     buildTypes {
@@ -48,6 +48,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
     // Espresso-Intents
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    // Mockito
+    androidTestImplementation 'org.mockito:mockito-android:2.13.0'
 
 
     // Unsplash dependency
@@ -56,5 +58,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    // DateTime
+    implementation 'joda-time:joda-time:2.9.9'
 
 }

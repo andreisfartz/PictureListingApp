@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PictureListingApp">
-        <activity android:name=".catnames.CatNamesMainActivity"/>
-        <activity android:name=".catnames.IdeasActivity"/>
+        <activity android:name=".hermetic.GreetingMainActivity"></activity>
+        <activity android:name=".catnames.CatNamesMainActivity" />
+        <activity android:name=".catnames.IdeasActivity" />
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".ListViewActivity" />
         <activity android:name=".pictures.SearchPicturesActivity" />

@@ -110,6 +110,7 @@ When running Instrumentation tests, there are 2 apps: the 'real' app, and the 't
 
 
 ----------------- Intents -----------------
+
 Check tests for 'catnames' package:
     Launch an Activity with an Intent which holds an extra.
 
@@ -135,6 +136,51 @@ example Stubbing Activity result:
 
 
 
+
+----------------- Dependancy Injection & Mockito -----------------
+
+Check tests for 'germetic' package:
+    We moved the DateTime() from GreetingMainActivity, to the Application class as getClock().getNow(),
+    because the testing framework has a mechanism to instantiate a different Application during test.
+
+    By placing the external dependency in the Application class, we can provide a different one during test.
+    Instead of a clock that provides the actual time, we'll have one providing a fixed time during test.
+
+
+    After creating the TestApplication:
+    - create a new class CustomTestRunner that extends AndroidJUnitRunner.
+    - override the newApplication method, and replace the className returned parameter with packageName.Name of the TestApplication
+        "com.asfartz.picturelistingapp.hermetic.TestApplication"
+
+    - in the App level (Module: ...) gradle file, notice in the defaultConfig block that we're using
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+      But we want to use our CustomTestRunner instead. so replace it with:
+        testInstrumentationRunner "com.asfartz.picturelistingapp.hermetic.CustomTestRunner"
+
+    - Now for the actual test:
+          - get the Application:
+              val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication
+          - Override the getNow() method for your mocked Clock:
+              override fun getNow(): DateTime { return DateTime().withHourOfDay(20) }
+
+
+
+    Alternatively: use Mockito, to create the test-version of Clock
+    - import mockito:     androidTestImplementation 'org.mockito:mockito-android:2.13.0'
+    - in TestApplication, change the mock Clock here to be a Mockito Clock
+        from:   private lateinit var clock: Clock
+        to: private val clock: Clock by lazy { Mockito.mock(Clock::class.java) }
+      and remove the setter.
+      Now this Mockito Clock is going to be used whenever someone calls provideClock()
+
+    - in the Test class, remove the usage of the setter.
+       And replace it with:
+            val clock = app.provideClock()
+            Mockito.`when`(clock.getNow()).thenReturn(DateTime().withHourOfDay(20))
+
+       ^ specify that when clock.getNow() is called, Mockito will have that method return the block in thenReturn(...)
+         the semi-colons 'when' are necessary because when is also a keyboard in Kotlin
 
 
 

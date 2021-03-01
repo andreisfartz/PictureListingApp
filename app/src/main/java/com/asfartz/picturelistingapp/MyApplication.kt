@@ -4,9 +4,10 @@ import android.app.Application
 import android.content.res.Configuration
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.asfartz.picturelistingapp.hermetic.Clock
 import com.unsplash.pickerandroid.photopicker.UnsplashPhotoPicker
 
-class MyApplication : Application() {
+open class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -19,6 +20,8 @@ class MyApplication : Application() {
         )
 
     }
+
+    open fun provideClock(): Clock = Clock()
 
     companion object {
         fun getUnsplashAPIKey() = "j4P7SWSmIv-DIdBJFHeI0bodIVwFFWxxCPnkKqvb97w"
