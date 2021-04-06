@@ -9,12 +9,12 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.asfartz.picturelistingapp.R
 import org.joda.time.DateTime
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 class GreetingMainActivityTest {
 
